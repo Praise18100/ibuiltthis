@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Outfit } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/common/header";
+import Footer from "@/components/common/footer";
 
-const inter = Inter({ subsets: ["latin"] });
-
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "iBuiltThis",
-  description: "iBuiltThis is a platform for building and sharing your own projects with the world",
+  title: "iBuiltThis - Share Your Creactions, Discover New Launches",
+  description:
+    "A community platform for creators to showcase their apps, AI tools, SaaS products, and creative projects. Authentic launches, real builders, genuine feedback.",
 };
 
 export default function RootLayout({
@@ -16,11 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.className} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${outfit.className} h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+        <ClerkProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
