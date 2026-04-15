@@ -1,3 +1,4 @@
+//import all necessary components
 import AdminProductCard from "@/components/admin/admin-product-card";
 import StatsCard from "@/components/admin/stats-card";
 import EmptyState from "@/components/common/empty-state";
@@ -7,31 +8,35 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import { InboxIcon, ShieldIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
-export default async function AdminPage() {
-  const { userId } = await auth();
+export default async function AdminPage() { 
+  //(async) - allow the page to load it data from the database before the UI
+  const { userId } = await auth();// to get the current userID
 
+  //if no userID redirect to signin page
   if (!userId) {
     redirect("/sign-in");
   }
 
+  //get all users from clerk
   const response = await clerkClient();
   const user = await response.users.getUser(userId!);
 
   const metadata = user.publicMetadata;
-  const isAdmin = metadata?.isAdmin ?? false;
+  const isAdmin = metadata?.isAdmin ?? false; //check if the user is an admin, if not - false
 
+  //if not an admin redirect to home
   if (!isAdmin) {
     redirect("/");
   }
-  const allProducts = await getAllProducts();
+  const allProducts = await getAllProducts(); //get all products from the database
   const approvedProducts = allProducts.filter(
-    (product) => product.status === "approved"
+    (product) => product.status === "approved" //get only approved products from the database
   );
   const pendingProducts = allProducts.filter(
-    (product) => product.status === "pending"
+    (product) => product.status === "pending" //get only pending products from the database
   );
   const rejectedProducts = allProducts.filter(
-    (product) => product.status === "rejected"
+    (product) => product.status === "rejected" //get only rejected products from the database
   );
   return (
     <div className="py-20">
@@ -43,7 +48,7 @@ export default async function AdminPage() {
             description="Review and manage submitted products"
           />
         </div>
-        <StatsCard
+        <StatsCard // to display the count of every product
           approved={approvedProducts.length}
           pending={pendingProducts.length}
           rejected={rejectedProducts.length}
@@ -63,6 +68,7 @@ export default async function AdminPage() {
                 icon={InboxIcon}
               />
             )}
+            {/* to loop through and display pending products */}
             {pendingProducts.map((product) => (
               <AdminProductCard key={product.id} product={product} />
             ))}

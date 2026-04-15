@@ -1,5 +1,6 @@
+//to enable caching for this page - the result store after the first execution is stored and reused for subsequent reloading
 "use cache";
-
+//import all necessary components
 import SectionHeader from "@/components/common/section-header";
 import VotingButtons from "@/components/products/voting-buttons";
 import { Badge } from "@/components/ui/badge";
@@ -18,8 +19,12 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+//to pre-render pages at build time instead of on demand
+//(async) - allow the page to load it data from the database before the UI
 export const generateStaticParams = async () => {
+  //fetch featured products
   const products = await getFeaturedProducts();
+  //convert product to route params
   return products.map((product) => ({
     slug: product.slug.toString(),
   }));
@@ -30,14 +35,18 @@ export default async function Product({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  //get the slug (id)
   const { slug } = await params;
 
+  //fetch the products by the the slyg (id)
   const product = await getProductBySlug(slug);
 
+  //if no product display 404 error page 
   if (!product) {
     notFound();
   }
 
+  //extract the needed field
   const { name, description, websiteUrl, tags, voteCount, tagline } = product;
 
   return (

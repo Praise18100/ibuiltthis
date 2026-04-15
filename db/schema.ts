@@ -1,3 +1,4 @@
+//Tools from Drizzle to define a PostgreSQL table. Each one represents a column type or DB feature
 import {
   pgTable,
   serial,
@@ -11,6 +12,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 // ============= PRODUCTS =============
+//create a table named products
 export const products = pgTable(
   "products",
   {

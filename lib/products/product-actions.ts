@@ -1,5 +1,5 @@
 "use server";
-
+//import all necessary components
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { FormState } from "@/types";

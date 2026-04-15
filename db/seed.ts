@@ -1,8 +1,10 @@
+//import all necessary components
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/neon-http";
 import { products } from "./schema";
 import { allProducts } from "./data";
 
+//to connect the database object to the databasde url
 const db = drizzle(process.env.DATABASE_URL!);
 
 async function main() {
@@ -12,7 +14,7 @@ async function main() {
   await db.delete(products);
   console.log("✅ Cleared existing data");
 
-  // Insert products from data.ts
+  // Insert products from data.ts(to loop through)
   for (const product of allProducts) {
     await db.insert(products).values({
       name: product.name,
@@ -46,11 +48,11 @@ async function main() {
 }
 
 main()
-  .catch((error) => {
+  .catch((error) => {//if there is an error, exit and display the error
     console.error("❌ Error seeding database:", error);
     process.exit(1);
   })
-  .finally(() => {
+  .finally(() => {// when the seeding is complete, exit the process
     console.log("\n✨ Seeding complete!");
     process.exit(0);
   });

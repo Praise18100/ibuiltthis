@@ -1,4 +1,4 @@
-
+//import all necessary components
 import SectionHeader from "@/components/common/section-header";
 import ProductSubmitForm from "@/components/products/product-submit-form";
 import { SparklesIcon } from "lucide-react";

@@ -1,3 +1,4 @@
+//import all necessary components
 import FeaturedProducts from "@/components/Landing-page/featured-products";
 import HeroSection from "@/components/Landing-page/hero-section";
 import RecentlyLaunchedProducts from "@/components/Landing-page/recently-launched-products";

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next";//for SEO
 import { ClerkProvider } from "@clerk/nextjs";
 import { Outfit } from "next/font/google";
 import "./globals.css";
